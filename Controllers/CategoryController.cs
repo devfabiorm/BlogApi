@@ -17,12 +17,12 @@ public class CategoryController : ControllerBase
         {
             var categories = await context.Categories.ToListAsync();
 
-            return Ok(categories);
+            return Ok(new ResultViewModel<List<Category>>(categories));
         }
-        catch (Exception)
+        catch
         {
 
-            return StatusCode(500, "05XE05 - Falha interna no servidor");
+            return StatusCode(500, new ResultViewModel<List<Category>>("05XE05 - Falha interna no servidor"));
         }
     }
 
