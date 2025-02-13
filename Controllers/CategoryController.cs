@@ -1,5 +1,6 @@
 ﻿using BlogApi.Data;
 using BlogApi.Models;
+using BlogApi.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -49,16 +50,21 @@ public class CategoryController : ControllerBase
 
     [HttpPost("v1/categories")]
     public async Task<IActionResult> Post(
-        [FromBody] Category model,
+        [FromBody] EditorCategoryViewModel model,
         [FromServices] BlogDataContext context)
     {
-
         try
         {
-            await context.Categories.AddAsync(model);
+            var category = new Category
+            {
+                Name = model.Name,
+                Slug = model.Slug.ToLower(),
+            };
+
+            await context.Categories.AddAsync(category);
             await context.SaveChangesAsync();
 
-            return Created($"v1/categories/{model.Id}", model);
+            return Created($"v1/categories/{category.Id}", category);
         }
         catch(DbUpdateConcurrencyException)
         {
@@ -74,7 +80,7 @@ public class CategoryController : ControllerBase
     [HttpPut("v1/categories/{id:int}")]
     public async Task<IActionResult> Put(
         [FromRoute] int id,
-        [FromBody] Category model,
+        [FromBody] EditorCategoryViewModel model,
         [FromServices] BlogDataContext context)
     {
         try
