@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
+//ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+
 var builder = WebApplication.CreateBuilder(args);
 
 ConfigureAuthentication(builder);
@@ -71,4 +73,5 @@ void ConfigureServices(WebApplicationBuilder builder)
 {
     builder.Services.AddDbContext<BlogDataContext>();
     builder.Services.AddTransient<TokenService>();
+    builder.Services.AddTransient<EmailService>();
 }
