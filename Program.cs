@@ -26,6 +26,7 @@ if(app.Environment.IsDevelopment())
     Console.WriteLine("Estou em ambiente de desenvolvimento");
 }
 
+app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
 app.UseStaticFiles();
